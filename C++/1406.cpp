@@ -1,6 +1,9 @@
 #include <iostream>
 #include <list>
 
+//1406 에디터 문제 
+// 리스트 활용해서 풀었따 
+
 using namespace std;
 
 int main() {
