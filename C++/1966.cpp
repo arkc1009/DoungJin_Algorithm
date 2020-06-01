@@ -1,82 +1,61 @@
 #include <iostream>
 #include <queue>
-
+#include <vector>
 //1966 프린터 큐 (보류) 
 
 using namespace std;
 
-int heap[101][2]={0};
-int hcount;
-
-void push(int ipt, int m) {
-	
-	heap[++hcount][0]=ipt;
-	
-	if(m) heap[hcount][1]=1;
-	
-	int child = hcount;
-	int par = child/2;
-	
-	while(child>1 && heap[child][0]>=heap[par][0]) {
-		swap(heap[child], heap[par]);
-		child=par;
-		par=child/2;
-	}
-}
-
-int pop() {
-
-	int result = heap[1][1];
-
-	swap(heap[1], heap[hcount--]);
-	
-	int par=1;
-	int child = par*2;
-	
-	if(child+1<=hcount) {
-		child=(heap[child][0]>heap[child+1][0]) ? child : child+1;
-	}
-	
-	while(child<=hcount && heap[par]<heap[child]) {
-		swap(heap[par], heap[child]);
-		
-		par=child;
-		child=par*2;
-		
-		if(child+1<=hcount) {
-			child=(heap[child][0]>heap[child+1][0]) ? child : child+1;
-		}
-	}
-	
-	return result;
-}
-
 int main() {
 
-	queue<bool>mqueue;
-	
-	int T;
+	queue<int>doc;
+	vector<int>ipt;
+
+	int T, N, M;
+	int vcnt=0;
+	int cnt=0;
+	int temp;
+	bool sw=false;
 	cin >> T;
 	
-	int N, M;
-	int temp;
-	int count=1;
-
-	while(T--) {
-		hcount=0;
-		cin >> N >> M;
-		for(int i=0; i<N; i++) {
+	for(int i=0; i<T; i++) {
+		vcnt=0;
+		cnt=0;
+		sw=false;
+		cin >> N >> M; 
+		for(int j=0; j<N; j++) { //중요도 입력 
 			cin >> temp;
-			if(i==M) push(temp, 1);
-			else push(temp, 0);
-		}
-		for(int i=0; i<N; i++) {
-			count++;
-			cout << pop() << "\n";
-			if(pop()) cout << count << "\n";
+			ipt.push_back(temp);
+			if(j==M) doc.push(1);
+		 	else doc.push(0);
 		}
 		
+		for(int j=0; j<N; j++) {
+			for(int k=vcnt; k<ipt.size(); k++) {
+				if(ipt[vcnt]<ipt[k]) {
+					doc.push(doc.front());
+					doc.pop();
+					ipt.push_back(ipt[vcnt++]);
+					sw=true;
+					break;
+				}
+			}
+			if(!sw) {
+				if(doc.front()==1) {
+					doc.pop();
+					break;
+				}
+				else {
+					doc.pop();
+					cnt++;
+					vcnt++;
+				}
+			}
+			
+		}
+		
+		cout << cnt << "\n";
 	}
-	
+
+
 	return 0;
 }
