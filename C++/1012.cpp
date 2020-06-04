@@ -1,21 +1,35 @@
 #include <iostream>
 #include <string.h>
-//1012 (보류) 신명나게 틀리고 있는중,,^^! 
+
+//1012 혐기농배추 문제
+//고오랭지 배추,,,
+//dfs로 풀어서 bfs질문을 활용할수도 없었다,,
+//그래서 결국 반례를 직접 찾다.
+//알고보니 탐색중에 좌표를 -1 을 할 경우가 없을거라고 생각했는데 아니였따. 
 
 using namespace std;
 
-bool graph[50][50]={false};
-bool check[50][50]={false};
+int gr[51][51]={0};
+int chk[51][51]={0};
+int dCount=0;
 
 void dfs(int x, int y) {
 	
-	check[x][y]=true;
+	chk[x][y]=1;
 	
-	if(!check[x+1][y] && graph[x+1][y] && x<49) {
+//	cout << "(" << x << "," << y << ")" << " ";
+	
+	if(gr[x+1][y] && !chk[x+1][y] && x!=50) {
 		dfs(x+1, y);
 	}
-	if(!check[x][y+1] && graph[x][y+1] && y<49) {
+	if(gr[x-1][y] && !chk[x-1][y] && x!=1) {
+		dfs(x-1, y);
+	}
+	if(gr[x][y+1] && !chk[x][y+1] && y!=50) {
 		dfs(x, y+1);
+	}
+	if(gr[x][y-1] && !chk[x][y-1] && y!=1) {
+		dfs(x, y-1);
 	}
 	
 }
@@ -24,28 +38,35 @@ int main() {
 	
 	int T, M, N, K, X, Y;
 	int cnt;
-	cin >> T;
 	
-	for(int i=0; i<T; i++) {
+	cin >> T;
+	for(int tc=0; tc<T; tc++) {
 		cnt=0;
 		cin >> M >> N >> K;
-		
-		for(int j=0; j<K; j++) {
+		for(int i=1; i<=K; i++) {
 			cin >> X >> Y;
-			graph[X][Y]=true;
+			gr[Y+1][X+1]=1;
 		}
-		
-		for(int j=0; j<M; j++) {
-			for(int k=0; k<N; k++) {
-				if(!check[j][k] && graph[j][k]) {
+		for(int i=1; i<=N; i++) {
+			for(int j=1; j<=M; j++) {
+				if(!chk[i][j] && gr[i][j]) {
 					cnt++;
-					dfs(j, k);
+					dfs(i, j);
 				}
 			}
 		}
+//		cout << "\n";
+//		for(int i=1; i<=N; i++) {
+//			for(int j=1; j<=M; j++) {
+//				if(chk[i][j]) cout << "1 ";
+//				else cout << "0 "; 
+//			}
+//			cout << "\n";
+//		}
+		
 		cout << cnt << "\n";
-		memset(check, false, sizeof(check));
-		memset(graph, false, sizeof(graph));
+		memset(gr, 0, sizeof(gr));
+		memset(chk, 0, sizeof(chk));
 	}
 
 	return 0;
