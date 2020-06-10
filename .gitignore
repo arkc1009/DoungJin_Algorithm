@@ -4,3 +4,5 @@ C++/*.exe
 C++ Grammar/*.exe
 *.pdf
 C++ Grammar
+venv
+*.idea
