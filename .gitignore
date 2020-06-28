@@ -1,9 +1,3 @@
-.DS_Store
-C/*.exe
-C++/*.exe
-C++ Grammar/*.exe
-*.pdf
-C++ Grammar
-venv
-*.idea
+*.exe
 work
+C++ Grammar
