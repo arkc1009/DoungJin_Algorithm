@@ -11,14 +11,14 @@ int main() {
 	cin >> N;
 	
 	int input;
-	vector<int>sort_arr;
+	vector<int>sort_arr; //정렬할 vector 생성 
 	
 	while(N--) {
 		cin >> input;
-		sort_arr.push_back(input);
+		sort_arr.push_back(input); //반복마다 입력받아 vector에 push 
 	}
 	
-	sort(sort_arr.begin(), sort_arr.end());
+	sort(sort_arr.begin(), sort_arr.end()); // sort (quick sort) 
 	
 	for(int i=0; i<sort_arr.size(); i++) {
 		cout << sort_arr[i] << "\n";
